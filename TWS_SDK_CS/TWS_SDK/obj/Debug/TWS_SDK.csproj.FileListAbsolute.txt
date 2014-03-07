@@ -1,0 +1,7 @@
+C:\work\TWS_SDK\TWS_SDK\bin\Debug\TWS_SDK.dll
+C:\work\TWS_SDK\TWS_SDK\bin\Debug\TWS_SDK.pdb
+C:\work\TWS_SDK\TWS_SDK\obj\Debug\TWS_SDK.csprojResolveAssemblyReference.cache
+C:\work\TWS_SDK\TWS_SDK\obj\Debug\TWS_SDK.dll
+C:\work\TWS_SDK\TWS_SDK\obj\Debug\TWS_SDK.pdb
+C:\work\TWS_SDK\TWS_SDK\bin\Debug\RestSharp.dll
+C:\work\TWS_SDK\TWS_SDK\bin\Debug\RestSharp.xml
