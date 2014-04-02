@@ -116,7 +116,7 @@ namespace TWS_SDK
             }
         }
 
-        public Hashtable getModels(Dictionary<string, string> query_params = null)
+        public List<Hashtable> getModels(Dictionary<string, string> query_params = null)
         {
             try
             {
@@ -128,14 +128,17 @@ namespace TWS_SDK
                 var client = new RestClient(m_stor_host);
                 var request = new RestRequest("api/v" + m_api_version + "/models?expire=" + t, Method.GET);
                 request.RequestFormat = DataFormat.Json;
-                foreach (var query in query_params)
+                if (query_params != null)
                 {
-                    request.AddParameter(query.Key, query.Value);
+                    foreach (var query in query_params)
+                    {
+                        request.AddParameter(query.Key, query.Value);
+                    }
                 }
                 request.AddHeader("Authorization", auth_header);
 
                 IRestResponse response = client.Execute(request);
-                Hashtable result = serializer.Deserialize<Hashtable>(response.Content);
+                List<Hashtable> result = serializer.Deserialize<List<Hashtable>>(response.Content);
                 return result;
             }
             catch (Exception e)
@@ -325,7 +328,7 @@ namespace TWS_SDK
             }
         }
 
-        public Hashtable getSessions(Dictionary<string, string> query_params = null)
+        public List<Hashtable> getSessions(Dictionary<string, string> query_params = null)
         {
             try
             {
@@ -344,7 +347,7 @@ namespace TWS_SDK
                 request.AddHeader("Authorization", auth_header);
 
                 IRestResponse response = client.Execute(request);
-                Hashtable result = serializer.Deserialize<Hashtable>(response.Content);
+                List<Hashtable> result = serializer.Deserialize<List<Hashtable>>(response.Content);
                 return result;
             }
             catch (Exception e)
@@ -449,7 +452,7 @@ namespace TWS_SDK
             }
         }
 
-        public Hashtable getRuns(string id, string platform = null)
+        public List<Hashtable> getRuns(string id, string platform = null)
         {
             try
             {
@@ -460,6 +463,30 @@ namespace TWS_SDK
                 string auth_header = "3WS " + m_api_key + ":" + sig;
                 var client = new RestClient(m_stom_host);
                 var request = new RestRequest("api/v" + m_api_version + "/sessions/" + id + "/runs?expire=" + t + "&platform=" + platform, Method.GET);
+                request.RequestFormat = DataFormat.Json;
+                request.AddHeader("Authorization", auth_header);
+
+                IRestResponse response = client.Execute(request);
+                List<Hashtable> result = serializer.Deserialize<List<Hashtable>>(response.Content);
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public Hashtable getRun(string session_id, string run_id)
+        {
+            try
+            {
+                var serializer = new JavaScriptSerializer();
+                long expire_t = expire();
+                string t = expire_t.ToString();
+                string sig = signature("GET\n\n" + t + "\n/api/v" + m_api_version + "/sessions/" + session_id + "/runs/" + run_id);
+                string auth_header = "3WS " + m_api_key + ":" + sig;
+                var client = new RestClient(m_stom_host);
+                var request = new RestRequest("api/v" + m_api_version + "/sessions/" + session_id + "/runs/" + run_id + "?expire=" + t, Method.GET);
                 request.RequestFormat = DataFormat.Json;
                 request.AddHeader("Authorization", auth_header);
 
