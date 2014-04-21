@@ -225,7 +225,13 @@ namespace TWS_SDK
             try
             {
                 /* upload to pre-signed s3 url*/
-                Dictionary<string, string> starts_with = (opts == null) ? null : (Dictionary<string, string>)opts["starts_with"];
+                Dictionary<string, string> starts_with = null;
+                try
+                {
+                    starts_with = (Dictionary<string, string>)opts["starts_with"];
+                }
+                catch(Exception e){}
+
                 Hashtable presign = presignedUploadForm(starts_with, ip_str);
                 var client = new RestClient((String)presign["form_action"]);
                 var upload_request = new RestRequest(Method.POST);
@@ -239,7 +245,12 @@ namespace TWS_SDK
                 IRestResponse response = client.Execute(upload_request);
 
                 /* Create model in STOR */
-                Dictionary<string, object> meta = (opts == null) ? null : (Dictionary<string, object>)opts["meta"];
+                 Dictionary<string, object> meta = null;
+                try
+                {
+                    meta =(Dictionary<string, object>)opts["meta"];
+                }catch(Exception e){}
+
                 long expire_t = expire();
                 string t = expire_t.ToString();
                 string sig = signature("POST\n\n" + t + "\n/api/v" + m_api_version + "/models");
