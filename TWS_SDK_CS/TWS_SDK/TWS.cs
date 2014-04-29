@@ -16,9 +16,9 @@ namespace TWS_SDK
     {
         static private string m_api_key;
         static private string m_api_secret;
-        static private string m_stom_host = "https://stom.herokuapp.com";
-        static private string m_stor_host = "https://stor.herokuapp.com";
-        static private string m_stid_host = "https://stid.herokuapp.com";
+        static private string m_stom_host = "https://stom.dddws.com";
+        static private string m_stor_host = "https://stor.dddws.com";
+        static private string m_stid_host = "https://stid.dddws.com";
         static private string m_api_version = "1";
         static private long m_expire_seconds = 3600;
 
@@ -390,7 +390,7 @@ namespace TWS_SDK
             }
         }
 
-        public Hashtable createSession(string timeout="60")
+        public Hashtable createSession(string timeout="60", string engine_ver="20140424")
         {
             try
             {
@@ -402,7 +402,7 @@ namespace TWS_SDK
                 var client = new RestClient(m_stom_host);
                 var request = new RestRequest("api/v" + m_api_version + "/sessions?expire=" + t, Method.POST);
                 request.RequestFormat = DataFormat.Json;
-                request.AddBody(new { timeout = timeout });
+                request.AddBody(new { timeout = timeout, engine_version = engine_ver });
                 request.AddHeader("Authorization", auth_header);
 
                 IRestResponse response = client.Execute(request);
