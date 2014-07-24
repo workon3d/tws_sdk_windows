@@ -5,3 +5,12 @@ C:\work\TWS_SDK\TWS_SDK\obj\Debug\TWS_SDK.dll
 C:\work\TWS_SDK\TWS_SDK\obj\Debug\TWS_SDK.pdb
 C:\work\TWS_SDK\TWS_SDK\bin\Debug\RestSharp.dll
 C:\work\TWS_SDK\TWS_SDK\bin\Debug\RestSharp.xml
+C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\obj\Debug\TWS_SDK.dll
+C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\bin\Debug\TWS_SDK.dll
+C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\bin\Debug\TWS_SDK.pdb
+C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\bin\Debug\RestSharp.dll
+C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\bin\Debug\RestSharp.xml
+C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\obj\Debug\TWS_SDK.pdb
+C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\bin\Debug\Newtonsoft.Json.dll
+C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\bin\Debug\Newtonsoft.Json.pdb
+C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\bin\Debug\Newtonsoft.Json.xml
