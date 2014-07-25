@@ -25,6 +25,5 @@ C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\bin\Release\RestSharp.dll
 C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\bin\Release\Newtonsoft.Json.pdb
 C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\bin\Release\Newtonsoft.Json.xml
 C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\bin\Release\RestSharp.xml
-C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\obj\Release\TWS_SDK.csprojResolveAssemblyReference.cache
 C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\obj\Release\TWS_SDK.dll
 C:\work\tws_sdk_windows\TWS_SDK_CS\TWS_SDK\obj\Release\TWS_SDK.pdb

@@ -16,21 +16,20 @@ namespace TWS_SDK
 
         static private Dictionary<string, string> m_links = new Dictionary<string,string>();
         static private string CHUNK_EXTENSION = ".tws";
-        private delegate void PutURL(Json.JObject jobj, TWS tws);
-
-        private PutURL putURL = (jobj, tws) =>
+        
+        private bool putURL(Json.JObject jobj)
         {
             if (!(jobj is Json.JObject))
-                return;
+                return false;
             if (jobj["class_type"] == null || (string)jobj["class_type"] != "StovChunk")
-                return;
+                return false;
             //if (jobj["id"] == null || jobj["stor_id"] == null)
             //    return;
             string stov_id = (string)jobj["id"];
             string stor_id = (string)jobj["stor_id"];
 
             if (stov_id == null || stor_id == null)
-                return;
+                return false;
 
             string link;
             if (!m_links.TryGetValue(stor_id, out link))
@@ -39,11 +38,11 @@ namespace TWS_SDK
                 if (jobj["filename"] != null)
                 {
                     string filename = stov_id + (string)jobj["filename"] + CHUNK_EXTENSION;
-                    link = tws.getLink(stor_id, filename);
+                    link = getLink(stor_id, filename);
                 }
                 else
                 {
-                    link = tws.getLink(stor_id);
+                    link = getLink(stor_id);
                 }
                 
                 if (link != null)
@@ -52,14 +51,16 @@ namespace TWS_SDK
 
             if (link != null)
                 jobj.Add("url", new Json.JValue(link));
-        };
+            
+            return true;
+        }
 
-        private void traverseCMR(Json.JObject jobj)
+        private void traverseCMR(Json.JObject jobj, Func<Json.JObject, bool> callback)
         {
             if (jobj == null)
                 return;
 
-            putURL(jobj, this);
+            callback(jobj);
 
             foreach (var prop in jobj)
             {
@@ -68,11 +69,11 @@ namespace TWS_SDK
                     foreach (var child in prop.Value)
                     {
                         if (child is Json.JObject)
-                            traverseCMR((Json.JObject)child);
+                            traverseCMR((Json.JObject)child, callback);
                     }
                 }
                 else if (prop.Value is Json.JObject)
-                    traverseCMR((Json.JObject)prop.Value);
+                    traverseCMR((Json.JObject)prop.Value, callback);
             }
         }
  
@@ -100,7 +101,7 @@ namespace TWS_SDK
             string result = "";  
             try
             {
-                traverseCMR(cmr);
+                traverseCMR(cmr, putURL);
                 result = cmr.ToString(Newtonsoft.Json.Formatting.None);
             }
             catch (Exception e) {
