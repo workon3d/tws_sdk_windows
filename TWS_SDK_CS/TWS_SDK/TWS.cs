@@ -14,8 +14,8 @@ namespace TWS_SDK
 {
     public class TWS
     {
-        static private string m_api_key;
-        static private string m_api_secret;
+        static protected string m_api_key;
+        static protected string m_api_secret;
         static private string m_stom_host = "https://stom.dddws.com";
         static private string m_stor_host = "https://stor.dddws.com";
         static private string m_stid_host = "https://stid.dddws.com";
