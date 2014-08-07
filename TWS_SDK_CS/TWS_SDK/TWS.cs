@@ -272,11 +272,11 @@ namespace TWS_SDK
             }
         }
 
-        public string getLink(string id, string filename = null)
+        public string getLink(string id, string filename = null, long expire_seconds = 0)
         {
             try
             {
-                long expire_t = expire();
+                long expire_t = expire(expire_seconds);
                 string t = expire_t.ToString();
                 if (filename == null)
                 {
@@ -536,11 +536,13 @@ namespace TWS_SDK
                 throw e;
             }
         }
-        private long expire()
+        private long expire(long expire_seconds = 0)
         {
             TimeSpan t = (DateTime.UtcNow - new DateTime(1970, 1, 1));
             long now = (long)t.TotalSeconds;
-            return now + m_expire_seconds;
+            if (expire_seconds == 0)
+                expire_seconds = m_expire_seconds;
+            return now + expire_seconds;
         }
 
     }

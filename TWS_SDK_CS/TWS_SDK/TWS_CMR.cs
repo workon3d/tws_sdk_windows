@@ -24,6 +24,11 @@ namespace TWS_SDK
                 return false;
             if (jobj["class_type"] == null || (string)jobj["class_type"] != "StovChunk")
                 return false;
+            long expire_seconds = 0;
+            string expire_seconds_str = null;
+            if (mapLinks.TryGetValue("expire_seconds", out expire_seconds_str))
+                expire_seconds = Int32.Parse(expire_seconds_str);
+
             //if (jobj["id"] == null || jobj["stor_id"] == null)
             //    return;
             string stov_id = (string)jobj["id"];
@@ -39,11 +44,11 @@ namespace TWS_SDK
                 if (jobj["filename"] != null)
                 {
                     string filename = stov_id + (string)jobj["filename"] + CHUNK_EXTENSION;
-                    link = getLink(stor_id, filename);
+                    link = getLink(stor_id, filename, expire_seconds);
                 }
                 else
                 {
-                    link = getLink(stor_id);
+                    link = getLink(stor_id, null, expire_seconds);
                 }
                 
                 if (link != null)
@@ -108,7 +113,7 @@ print(json.dumps(conv_result))"
             }
         }
 
-        public string getCMR(string stor_id)
+        public string getCMR(string stor_id, long expire_seconds = 0)
         {
             Hashtable m = getModel(stor_id);
 
@@ -133,6 +138,8 @@ print(json.dumps(conv_result))"
             try
             {
                 Dictionary<string, string> mapLinks = new Dictionary<string, string>();
+                if (expire_seconds != 0)
+                    mapLinks["expire_seconds"] = expire_seconds.ToString();
                 traverseCMR(cmr, mapLinks, putURL);
                 result = cmr.ToString(Newtonsoft.Json.Formatting.None);
             }
