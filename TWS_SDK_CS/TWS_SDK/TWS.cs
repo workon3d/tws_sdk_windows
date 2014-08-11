@@ -390,7 +390,7 @@ namespace TWS_SDK
             }
         }
 
-        public Hashtable createSession(string timeout="60", string engine_ver="20140424")
+        public Hashtable createSession(string timeout="60", string engine_ver="latest")
         {
             try
             {

@@ -11,7 +11,6 @@ namespace TWS_SDK
     public class TWS_CMR : TWS
     {
         static private string CHUNK_EXTENSION = ".tws";
-        static private string STOM_ENGINE_VERSION = "20140724";
 
         public TWS_CMR(string key, string secret, string api_version = null, string stom_host = null, string stor_host = null, string stid_host = null)
             : base(key, secret, api_version, stom_host, stor_host, stid_host)
@@ -83,9 +82,9 @@ namespace TWS_SDK
             }
         }
 
-        public Hashtable createCMR(string stor_id, bool preserve_downloaded_file = false, bool mesh_heal = false, bool clustering = false)
+        public Hashtable createCMR(string stor_id, string engine_version = "latest", bool preserve_downloaded_file = false, bool mesh_heal = false, bool clustering = false)
         {
-            Hashtable session = createSession("3600", STOM_ENGINE_VERSION);
+            Hashtable session = createSession("3600", engine_version);
             if (session == null)
                 return null;
 
