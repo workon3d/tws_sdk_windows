@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
+using System.Net;
 using System.Collections;
 using Json = Newtonsoft.Json.Linq;
 
@@ -17,8 +18,9 @@ namespace TWS_SDK
         {
         }
 
-        private bool putURL(Json.JObject jobj, Dictionary<string, string> mapLinks)
+        private bool putURL(Json.JObject jobj, object _mapLinks)
         {
+            Dictionary<string, string> mapLinks = _mapLinks as Dictionary<string, string>;
             if (!(jobj is Json.JObject))
                 return false;
             if (jobj["class_type"] == null || (string)jobj["class_type"] != "StovChunk")
@@ -39,16 +41,17 @@ namespace TWS_SDK
             string link;
             if (!mapLinks.TryGetValue(stor_id, out link))
             {
-                
-                if (jobj["filename"] != null)
+                string filename = stov_id + CHUNK_EXTENSION;
+
+                if (jobj["filename"] != null && ((string)jobj["filename"]).Length > 0)
                 {
-                    string filename = stov_id + (string)jobj["filename"] + CHUNK_EXTENSION;
-                    link = getLink(stor_id, filename, expire_seconds);
+                    filename = (string)jobj["filename"];
                 }
                 else
                 {
-                    link = getLink(stor_id, null, expire_seconds);
+                    filename = stov_id + CHUNK_EXTENSION;
                 }
+                link = getLink(stor_id, filename, expire_seconds);
                 
                 if (link != null)
                     mapLinks.Add(stor_id, link);
@@ -60,7 +63,66 @@ namespace TWS_SDK
             return true;
         }
 
-        private void traverseCMR(Json.JObject jobj, Dictionary<string, string> cache, Func<Json.JObject, Dictionary<string, string>, bool> callback)
+        private bool convertURL2Local(Json.JObject jobj, object _mapLinks)
+        {
+            Dictionary<string, string> mapLinks = _mapLinks as Dictionary<string, string>;
+            string base_dir;
+            if (!mapLinks.TryGetValue("base_directory", out base_dir))
+                return false;
+
+            if (!(jobj is Json.JObject))
+                return false;
+            if (jobj["class_type"] == null || (string)jobj["class_type"] != "StovChunk")
+                return false;
+
+            string stov_id = (string)jobj["id"];
+            string stor_id = (string)jobj["stor_id"];
+
+            if (stov_id == null || stor_id == null)
+                return false;
+
+            string link;
+            if (!mapLinks.TryGetValue(stor_id, out link))
+            {
+                if (jobj["url"] != null)
+                {
+                    string filename;
+                    if (jobj["filename"] != null)
+                    {
+                        filename = base_dir + "/" + (string)jobj["filename"];
+                    }
+                    else {
+                        filename = base_dir + "/" + stov_id + CHUNK_EXTENSION;
+                    }
+
+                    using (System.Net.WebClient myWebClient = new System.Net.WebClient())
+                    {
+                        try {
+                            myWebClient.DownloadFile((string)jobj["url"], filename);
+                            link = filename;
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+                
+                if (link != null)
+                    mapLinks.Add(stor_id, link);
+            }
+
+            if (link != null)
+            {
+                if (jobj["filename"] != null)
+                    jobj["filename"] = link;
+                else
+                    jobj.Add("filename", new Json.JValue(link));
+            }   
+
+            return true;
+        }
+
+        private void traverseCMR(Json.JObject jobj, object cache, Func<Json.JObject, object, bool> callback)
         {
             if (jobj == null)
                 return;
@@ -145,6 +207,20 @@ print(json.dumps(conv_result))"
             catch (Exception e) {
                 return ""; 
             }
+
+            return result;
+        }
+
+        public string convertToLocalCMR(string cmr_json_string, string base_directory)
+        {
+            Json.JObject cmr = Json.JObject.Parse(cmr_json_string);
+
+            Dictionary<string, string> mapLinks = new Dictionary<string, string>();
+            mapLinks.Add("base_directory", base_directory);
+            traverseCMR(cmr, mapLinks, convertURL2Local);
+
+            string result = "";
+            result = cmr.ToString(Newtonsoft.Json.Formatting.None);
 
             return result;
         }
