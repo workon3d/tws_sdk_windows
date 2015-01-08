@@ -244,8 +244,13 @@ namespace TWS_SDK
                 upload_request.AddFile("file", path);
                 IRestResponse response = client.Execute(upload_request);
 
+                if (response.ResponseStatus != ResponseStatus.Completed || response.StatusCode != System.Net.HttpStatusCode.NoContent)
+                {
+                    throw new Exception(string.Format("file upload failed. Response Code: {0}", response.StatusCode));
+                }
+
                 /* Create model in STOR */
-                 Dictionary<string, object> meta = null;
+                Dictionary<string, object> meta = null;
                 try
                 {
                     meta =(Dictionary<string, object>)opts["meta"];
