@@ -246,7 +246,7 @@ namespace TWS_SDK
 
                 if (response.ResponseStatus != ResponseStatus.Completed || response.StatusCode != System.Net.HttpStatusCode.NoContent)
                 {
-                    throw new Exception(string.Format("file upload failed. Response Code: {0}", response.StatusCode));
+                    throw new Exception(string.Format("file({0}) upload failed. Response Code: {1}", presign["upload_id"], response.StatusCode));
                 }
 
                 /* Create model in STOR */
