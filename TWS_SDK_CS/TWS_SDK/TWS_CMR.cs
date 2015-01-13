@@ -221,7 +221,7 @@ print(json.dumps(conv_result))"
                             {
                                 Json.JObject result = Json.JObject.Parse(run["result"] as string);
                                 if (result["CMR"] != null && result["CMR"][stor_id] != null)
-                                    meta["cmr_status"] = "compete";
+                                    meta["cmr_status"] = "complete";
                                 else
                                     meta["cmr_status"] = "error";
                             }
