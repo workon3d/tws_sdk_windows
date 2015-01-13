@@ -217,7 +217,19 @@ print(json.dumps(conv_result))"
                         meta = m["meta"] as Dictionary<string, object>;
                         if (meta != null && meta.TryGetValue("cmr_status", out cmr_status))
                         {
-                            meta["cmr_status"] = run["state"];
+                            try
+                            {
+                                Json.JObject result = Json.JObject.Parse(run["result"] as string);
+                                if (result["CMR"] != null && result["CMR"][stor_id] != null)
+                                    meta["cmr_status"] = "compete";
+                                else
+                                    meta["cmr_status"] = "error";
+                            }
+                            catch
+                            {
+                                meta["cmr_status"] = "error";
+                            }
+                            
                             updateModel(stor_id, meta);
                         }
                     }
