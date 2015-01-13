@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Script.Serialization;
 using System.Net;
 using System.Collections;
+using System.Threading;
 using Json = Newtonsoft.Json.Linq;
 
 namespace TWS_SDK
@@ -144,8 +145,31 @@ namespace TWS_SDK
             }
         }
 
-        public Hashtable createCMR(string stor_id, string engine_version = "latest", bool preserve_downloaded_file = false, bool mesh_heal = false, bool clustering = false)
+        public Hashtable createCMR(string stor_id, string engine_version = "latest", bool preserve_downloaded_file = false, bool mesh_heal = false, bool clustering = false, bool wait_to_complete = false, bool check_existing = false)
         {
+            Hashtable m = getModel(stor_id);
+            if (m == null)
+            {
+                throw new Exception(string.Format("Invalid stor_id: {0}", stor_id));
+            }
+            Dictionary<string, object> meta = m["meta"] as Dictionary<string, object>;
+            object cmr_status = null;
+            if (meta != null)
+                meta.TryGetValue("cmr_status", out cmr_status);
+
+            if (check_existing && cmr_status != null)
+            {
+                switch (cmr_status as string)
+                {
+                    case "processing":
+                        throw new Exception(string.Format("Creating CMR process is already running for stor_id: {0}", stor_id));
+                    case "complete":
+                        throw new Exception(string.Format("There is already completed CMR for stor_id: {0}", stor_id));
+                    case "error":
+                        throw new Exception(string.Format("There is already error CMR for stor_id: {0}\n Please try again without check_existing", stor_id));
+                }
+            }
+            
             Hashtable session = createSession("3600", engine_version);
             if (session == null)
                 return null;
@@ -153,6 +177,15 @@ namespace TWS_SDK
             try
             {
                 string session_id = (string)session["id"];
+
+                if (meta != null && wait_to_complete)
+                {
+                    if (cmr_status != null)
+                        meta["cmr_status"] = "processing";
+                    else
+                        meta.Add("cmr_status", "processing");
+                    updateModel(stor_id, meta);
+                }
 
                 string code = string.Format(
 @"
@@ -166,7 +199,31 @@ print(json.dumps(conv_result))"
                     clustering ? "200" : "1",
                     stor_id);
 
-                return createRun(session_id, "blender", code);
+                Hashtable run = createRun(session_id, "blender", code);
+                if (wait_to_complete)
+                {
+                    string run_id = Convert.ToString(run["id"]);
+
+                    int iRet = 0;
+                    while (run["state"] as string != "complete" && run["state"] as string != "error" && iRet < 360)
+                    {
+                        Thread.Sleep(1000);
+                        run = getRun(session_id, run_id);
+                        iRet++;
+                    }
+                    if (meta != null)
+                    {
+                        m = getModel(stor_id);
+                        meta = m["meta"] as Dictionary<string, object>;
+                        if (meta != null && meta.TryGetValue("cmr_status", out cmr_status))
+                        {
+                            meta["cmr_status"] = run["state"];
+                            updateModel(stor_id, meta);
+                        }
+                    }
+                    return run;
+                }
+                return run;
             }
             catch (Exception e)
             {
