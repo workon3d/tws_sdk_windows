@@ -162,11 +162,9 @@ namespace TWS_SDK
                 switch (cmr_status as string)
                 {
                     case "processing":
-                        throw new Exception(string.Format("Creating CMR process is already running for stor_id: {0}", stor_id));
                     case "complete":
-                        throw new Exception(string.Format("There is already completed CMR for stor_id: {0}", stor_id));
                     case "error":
-                        throw new Exception(string.Format("There is already error CMR for stor_id: {0}\n Please try again without check_existing", stor_id));
+                        return null;
                 }
             }
             
@@ -205,7 +203,7 @@ print(json.dumps(conv_result))"
                     string run_id = Convert.ToString(run["id"]);
 
                     int iRet = 0;
-                    while (run["state"] as string != "complete" && run["state"] as string != "error" && iRet < 360)
+                    while (run["state"] as string != "complete" && run["state"] as string != "error" && iRet < 3600)
                     {
                         Thread.Sleep(1000);
                         run = getRun(session_id, run_id);
@@ -233,6 +231,7 @@ print(json.dumps(conv_result))"
                             updateModel(stor_id, meta);
                         }
                     }
+                    closeSession(session_id);
                     return run;
                 }
                 return run;
