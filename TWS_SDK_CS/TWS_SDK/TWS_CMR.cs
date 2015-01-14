@@ -164,7 +164,9 @@ namespace TWS_SDK
                     case "processing":
                     case "complete":
                     case "error":
-                        return null;
+                        Hashtable status = new Hashtable();
+                        status.Add("cmr_status", cmr_status);
+                        return status;
                 }
             }
             
