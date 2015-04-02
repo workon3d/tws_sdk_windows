@@ -277,7 +277,7 @@ namespace TWS_SDK
             }
         }
 
-        public string getLink(string id, string filename = null, long expire_seconds = 0)
+        public string getLink(string id, string filename = null, long expire_seconds = 0, string content_type = null)
         {
             try
             {
@@ -286,12 +286,12 @@ namespace TWS_SDK
                 if (filename == null)
                 {
                     string sig = signature("GET\n\n" + t + "\n/api/v" + m_api_version + "/models/" + id + "/download");
-                    return m_stor_host + "/api/v" + m_api_version + "/models/" + id + "/download?expire=" + t + "&key=" + m_api_key + "&signature=" + sig;
+                    return m_stor_host + "/api/v" + m_api_version + "/models/" + id + "/download?expire=" + t + "&key=" + m_api_key + "&signature=" + sig + (String.IsNullOrEmpty(content_type) ? null : "&content_type=" + content_type);
                 }
                 else
                 {
                     string sig = signature("GET\n\n" + t + "\n/api/v" + m_api_version + "/models/" + id + "/" + System.Uri.EscapeDataString(filename));
-                    return m_stor_host + "/api/v" + m_api_version + "/models/" + id + "/" + System.Uri.EscapeDataString(filename) + "?expire=" + t + "&key=" + m_api_key + "&signature=" + sig;
+                    return m_stor_host + "/api/v" + m_api_version + "/models/" + id + "/" + System.Uri.EscapeDataString(filename) + "?expire=" + t + "&key=" + m_api_key + "&signature=" + sig + (String.IsNullOrEmpty(content_type) ? null : "&content_type=" + content_type);
                 }
             }
             catch (Exception e)
