@@ -234,6 +234,8 @@ namespace TWS_SDK
 
                 Hashtable presign = presignedUploadForm(starts_with, ip_str);
                 var client = new RestClient((String)presign["form_action"]);
+                client.Timeout = 60 * 60 * 2;
+
                 var upload_request = new RestRequest(Method.POST);
                 upload_request.RequestFormat = DataFormat.Json;
                 Dictionary<string, object> form_field = (Dictionary<string, object>)presign["form_fields"];
@@ -277,6 +279,10 @@ namespace TWS_SDK
             }
         }
 
+        public string getLink(string id, string filename = null, long expire_seconds = 0)
+        {
+            return getLink(id, filename, expire_seconds, null);
+        }
         public string getLink(string id, string filename = null, long expire_seconds = 0, string content_type = null)
         {
             try
