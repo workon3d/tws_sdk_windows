@@ -234,7 +234,7 @@ namespace TWS_SDK
 
                 Hashtable presign = presignedUploadForm(starts_with, ip_str);
                 var client = new RestClient((String)presign["form_action"]);
-                client.Timeout = 60 * 60 * 2;
+                client.Timeout = 1000 * 60 * 60 * 2;
 
                 var upload_request = new RestRequest(Method.POST);
                 upload_request.RequestFormat = DataFormat.Json;
