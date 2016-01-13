@@ -126,8 +126,9 @@ namespace TWS_SDK
                 string sig = signature("GET\n\n" + t + "\n/api/v" + m_api_version + "/models");
                 string auth_header = "3WS " + m_api_key + ":" + sig;
                 var client = new RestClient(m_stor_host);
-                var request = new RestRequest("api/v" + m_api_version + "/models?expire=" + t, Method.GET);
+                var request = new RestRequest("api/v" + m_api_version + "/models", Method.GET);
                 request.RequestFormat = DataFormat.Json;
+                request.AddParameter("expire", t);
                 if (query_params != null)
                 {
                     foreach (var query in query_params)
