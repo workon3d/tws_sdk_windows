@@ -1,2 +1,7 @@
-*.suo
-TWS_SDK_CS/TWS_SDK/obj/*
+.suo
+.v11.suo
+/TWS_SDK_CS/TWS_SDK/obj
+/TWS_SDK_CS/PaaS/obj
+/TWS_SDK_CS/PaaS/bin
+/TWS_SDK_CS/PaaSExample/obj
+/TWS_SDK_CS/PaaSExample/bin

@@ -1,0 +1,150 @@
+using System;
+using System.Linq;
+using System.IO;
+using System.Text;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace PaaS.SDK.Model
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    [DataContract]
+    public partial class PasswordOptions :  IEquatable<PasswordOptions>
+    { 
+    
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PasswordOptions" /> class.
+        /// Initializes a new instance of the <see cref="PasswordOptions" />class.
+        /// </summary>
+        /// <param name="Email">login email.</param>
+        /// <param name="PasswordToken">valid password-token.</param>
+        /// <param name="Password">new password.</param>
+
+        public PasswordOptions(string Email = null, string PasswordToken = null, string Password = null)
+        {
+            this.Email = Email;
+            this.PasswordToken = PasswordToken;
+            this.Password = Password;
+            
+        }
+        
+    
+        /// <summary>
+        /// login email
+        /// </summary>
+        /// <value>login email</value>
+        [DataMember(Name="email", EmitDefaultValue=false)]
+        public string Email { get; set; }
+    
+        /// <summary>
+        /// valid password-token
+        /// </summary>
+        /// <value>valid password-token</value>
+        [DataMember(Name="password_token", EmitDefaultValue=false)]
+        public string PasswordToken { get; set; }
+    
+        /// <summary>
+        /// new password
+        /// </summary>
+        /// <value>new password</value>
+        [DataMember(Name="password", EmitDefaultValue=false)]
+        public string Password { get; set; }
+    
+        /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("class PasswordOptions {\n");
+            sb.Append("  Email: ").Append(Email).Append("\n");
+            sb.Append("  PasswordToken: ").Append(PasswordToken).Append("\n");
+            sb.Append("  Password: ").Append(Password).Append("\n");
+            
+            sb.Append("}\n");
+            return sb.ToString();
+        }
+  
+        /// <summary>
+        /// Returns the JSON string presentation of the object
+        /// </summary>
+        /// <returns>JSON string presentation of the object</returns>
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="obj">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object obj)
+        {
+            // credit: http://stackoverflow.com/a/10454552/677735
+            return this.Equals(obj as PasswordOptions);
+        }
+
+        /// <summary>
+        /// Returns true if PasswordOptions instances are equal
+        /// </summary>
+        /// <param name="other">Instance of PasswordOptions to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(PasswordOptions other)
+        {
+            // credit: http://stackoverflow.com/a/10454552/677735
+            if (other == null)
+                return false;
+
+            return 
+                (
+                    this.Email == other.Email ||
+                    this.Email != null &&
+                    this.Email.Equals(other.Email)
+                ) && 
+                (
+                    this.PasswordToken == other.PasswordToken ||
+                    this.PasswordToken != null &&
+                    this.PasswordToken.Equals(other.PasswordToken)
+                ) && 
+                (
+                    this.Password == other.Password ||
+                    this.Password != null &&
+                    this.Password.Equals(other.Password)
+                );
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            // credit: http://stackoverflow.com/a/263416/677735
+            unchecked // Overflow is fine, just wrap
+            {
+                int hash = 41;
+                // Suitable nullity checks etc, of course :)
+                
+                if (this.Email != null)
+                    hash = hash * 59 + this.Email.GetHashCode();
+                
+                if (this.PasswordToken != null)
+                    hash = hash * 59 + this.PasswordToken.GetHashCode();
+                
+                if (this.Password != null)
+                    hash = hash * 59 + this.Password.GetHashCode();
+                
+                return hash;
+            }
+        }
+
+    }
+}
