@@ -91,6 +91,7 @@ user_email = "end user email";
 password = "end user password";
 ```
 And you can create a new customer account for testing. Please visit http://qpe-working.herokuapp.com/ and proceed for Creating an Account. Otherwise, you can try to use SDK interfaces to create new customer.
+As a result, you will get URL to reach the created quote on front-end.
 The created account will be only valid for working with http://paas-working.dddws.com/, unless you use staging or production.
 
 ### 3. TWS_SDK
