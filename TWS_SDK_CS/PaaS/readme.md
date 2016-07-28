@@ -64,7 +64,7 @@ POST /orders (with quote_id, addresses, payment, shipping)
 ```
 Similarly with _/users/options_, you can get the detail possible courier options via _GET /order/options_
 
-#### Development environment
+### Development environment
 Actually we are hosting 3 servers along the development and deployment steps.
 
 1. working (development) - http://paas-working.dddws.com/
@@ -73,11 +73,11 @@ Actually we are hosting 3 servers along the development and deployment steps.
 
 And you’d better to develop with working environment till your product release, because we don’t have something like sandbox environment for individual developer.
 
-#### Tips for creating quote with anonymous user without authentication
+### Tips for creating quote with anonymous user without authentication
 For 3rd party, there is a way to create parts, quote without user login.
 With `user_token=none` parameter, you can accomplish this. This special user token is allowed for only 2 methods - `parts#create` and `quotes#create`.
 
-When you request `quotes#create`, the response will include `temporary_user_token` item. For the created quote, you can access with this temporary_user_token in the same way of using normal `user_token`.
+When you request `quotes#create`, the response will include `temporary_user_token` item. For the created quote, you can access with this _temporary_user_token_ in the same way of using normal `user_token`. This _temporary_user_token_ is only valid for the particular quote. This means that you cannot access other quotes and their lineitem or part with this token.
 
 e.g For creating a new lineitem in the quote which is created by anonymous user,
 ```
@@ -90,7 +90,12 @@ response:
 
 POST /quotes/{created quote_id}/lineitems?api_token={your api token}&user_token={temporary_user_token} with payload
 ```
+Here is the list of available APIs with the temporary user token.
+* `parts#create`, `parts#update`, `parts#update_multiple`
+* `quotes#get`, `quotes#update`, `quotes#attachment`
+* `lineitems#create`, `lineitems#get`, `lineitems#update`, `lineitems#update_multiple`, `lineitems#delete`, `lineitems#delete_multiple`, `lineitems#copy`, `lineitems#attachment`
 
+As you can see, there is no supported APIs for order creation in the list. For creating order and confirming, either authentication or knwon user-token is required.
 
 # C# SDK
 * PaaS SDK is a part of 3WS C# SDK, though it can be used as stand-alone.
