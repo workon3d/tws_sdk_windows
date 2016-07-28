@@ -71,7 +71,26 @@ Actually we are hosting 3 servers along the development and deployment steps.
 2. staging (ready to production and finial QA) - http://paas-staging.dddws.com/
 3. production - http://paas.dddws.com/
 
-And you’d better developing with working environment till your product release, because we don’t have something like sandbox environment for individual developer.
+And you’d better to develop with working environment till your product release, because we don’t have something like sandbox environment for individual developer.
+
+#### Tips for creating quote with anonymous user without authentication
+For 3rd party, there is a way to create parts, quote without user login.
+With `user_token=none` parameter, you can accomplish this. This special user token is allowed for only 2 methods - `parts#create` and `quotes#create`.
+
+When you request `quotes#create`, the response will include `temporary_user_token` item. For the created quote, you can access with this temporary_user_token in the same way of using normal `user_token`.
+
+e.g For creating a new lineitem in the quote which is created by anonymous user,
+```
+POST /quotes?api_token={your api token}&user_token=none
+response:
+  {
+    "quote_id": ...,
+    "temporary_user_token": ...,
+  }
+
+POST /quotes/{created quote_id}/lineitems?api_token={your api token}&user_token={temporary_user_token} with payload
+```
+
 
 # C# SDK
 * PaaS SDK is a part of 3WS C# SDK, though it can be used as stand-alone.
