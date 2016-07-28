@@ -64,7 +64,7 @@ POST /orders (with quote_id, addresses, payment, shipping)
 ```
 Similarly with _/users/options_, you can get the detail possible courier options via _GET /order/options_
 
-### Development environment
+### Development Environment
 Actually we are hosting 3 servers along the development and deployment steps.
 
 1. working (development) - http://paas-working.dddws.com/
@@ -73,7 +73,7 @@ Actually we are hosting 3 servers along the development and deployment steps.
 
 And you’d better to develop with working environment till your product release, because we don’t have something like sandbox environment for individual developer.
 
-### Tips for creating quote with anonymous user without authentication
+### Tips for Quote Creation with Anonymous User without Authentication
 For 3rd party, there is a way to create parts, quote without user login.
 With `user_token=none` parameter, you can accomplish this. This special user token is allowed for only 2 methods - `parts#create` and `quotes#create`.
 
