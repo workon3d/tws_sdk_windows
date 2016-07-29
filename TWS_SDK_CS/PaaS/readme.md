@@ -91,7 +91,7 @@ response:
 POST /quotes/{created quote_id}/lineitems?api_token={your api token}&user_token={temporary_user_token} with payload
 ```
 Here is the list of available APIs with the temporary user token.
-* `parts#create`, `parts#update`, `parts#update_multiple`
+* `parts#get`, `parts#index`, `parts#create`, `parts#update`, `parts#update_multiple`
 * `quotes#get`, `quotes#update`, `quotes#attachment`
 * `lineitems#create`, `lineitems#get`, `lineitems#update`, `lineitems#update_multiple`, `lineitems#delete`, `lineitems#delete_multiple`, `lineitems#copy`, `lineitems#attachment`
 
