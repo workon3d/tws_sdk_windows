@@ -110,6 +110,12 @@ namespace PaaS.SDK.Model
         public string UpdatedAt { get; set; }
 
         /// <summary>
+        /// Gets or Sets UpdatedAt
+        /// </summary>
+        [DataMember(Name = "temporary_user_token", EmitDefaultValue = false)]
+        public string TemporaryUserToken { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
