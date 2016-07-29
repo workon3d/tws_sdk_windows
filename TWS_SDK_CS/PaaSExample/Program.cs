@@ -14,7 +14,7 @@ namespace PaaSExample
     {
         static void Main(string[] args)
         {
-            UploadPartAndCreateQuoteForAnonymousUserExample();
+            UploadPartAndCreateQuoteExample();
         }
 
         static void UploadPartAndCreateQuoteExample()
