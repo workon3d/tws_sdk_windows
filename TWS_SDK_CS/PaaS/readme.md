@@ -17,7 +17,7 @@ For the developer credential, we are using 3WS (http://stid.dddws.com/) api-user
 Though all API information is updated at http://paas-working.dddws.com/, there would be missing details. Nevertheless, you can even test with it.
 Along the above procedures, you needs to call the following REST APIs.
 
-#### 1. End-user account creation (can be skipped, if it is already created)
+#### 1. End-user account creation (can be skipped, if it is already created) 
 ```
 POST /users (with api_token = API Key of 3WS account)
 ```
@@ -96,6 +96,12 @@ Here is the list of available APIs with the temporary user token.
 * `lineitems#create`, `lineitems#get`, `lineitems#update`, `lineitems#update_multiple`, `lineitems#delete`, `lineitems#delete_multiple`, `lineitems#copy`, `lineitems#attachment`
 
 As you can see, there is no supported APIs for order creation in the list. For creating order and confirming, either authentication or knwon user-token is required.
+
+### Tips for the case when you want to use Front-end UI
+According to your user scenario, you may want to create a quote with the desired parts and redirect the front-web page for user to do the remaining procedure there. In this case, you need the specific URLs to show 1) account creation page or 2) quote detail page
+To get these URLs, you can use PaaS as well. 
+
+http://paas-working.dddws.com/#/Apps
 
 # C# SDK
 * PaaS SDK is a part of 3WS C# SDK, though it can be used as stand-alone.
