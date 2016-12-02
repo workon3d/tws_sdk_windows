@@ -7,6 +7,7 @@
 5. Create LineItem instances corresponding parts into Quote. LineItems is conceptual container to include part information, printing and specification and lead-time requirement.
 6. Get the Quote to see the updated such as price
 7. Create an Order instance with the shipping methods and additional payment information.
+![API Workflow](https://raw.githubusercontent.com/workon3d/tws_sdk_windows/master/TWS_SDK_CS/PaaS/PaaS%20api%20workflow.png)
 
 If you are done to the last step, project managers of QP will check the order and assign it to actual facility to produce. If necessary, they will contact the end-user customer.
 
