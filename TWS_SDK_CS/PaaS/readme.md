@@ -72,7 +72,7 @@ Actually we are hosting 3 servers along the development and deployment steps.
 2. staging (ready to production and finial QA) - http://paas-staging.dddws.com/
 3. production - http://paas.dddws.com/
 
-And you’d better to develop with working environment till your product release, because we don’t have something like sandbox environment for individual developer.
+And you’d better to develop with staging environment till your product release, because we don’t have something like sandbox environment for individual developer. And working(our development) environment keeps changing.
 
 ### Tips for Quote Creation with Anonymous User without Authentication
 For 3rd party, there is a way to create parts, quote without user login.
@@ -122,9 +122,9 @@ api_token = “your api key from 3WS user account”
 user_email = "end user email";
 password = "end user password";
 ```
-And you can create a new customer account for testing. Please visit http://qpe-working.herokuapp.com/ and proceed for Creating an Account. Otherwise, you can try to use SDK interfaces to create new customer.
+And you can create a new customer account for testing. Please visit http://qpe-staging.herokuapp.com/ and proceed for Creating an Account. Otherwise, you can try to use SDK interfaces to create new customer.
 As a result, you will get URL to reach the created quote on front-end.
-The created account will be only valid for working with http://paas-working.dddws.com/, unless you use staging or production.
+The created account will be only valid for staging with http://paas-staging.dddws.com/, unless you use working or production.
 
 ### 3. TWS_SDK
 If you don’t need to handling the cloud file and modeling directly, you don’t have to care about TWS_SDK project.
