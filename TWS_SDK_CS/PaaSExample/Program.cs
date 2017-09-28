@@ -19,11 +19,10 @@ namespace PaaSExample
 
         static void UploadPartAndCreateQuoteExample()
         {
-            string api_host = "https://paas-working.dddws.com/api/v1";
+            string api_host = "https://paas-staging.dddws.com/api/v1";
             // development: https://paas-working.dddws.com/api/v1
             // staging: https://paas-staging.dddws.com/api/v1
             // production: https://paas.dddws.com/api/v1
-            string fronend_url = "http://qpe-working.herokuapp.com";
             string api_token = "your api token";
             string user_email = "end user email";
             string password = "end user password";
@@ -45,6 +44,7 @@ namespace PaaSExample
             QuotesApi quote_api = new QuotesApi(configuration);
             LineItemsApi lineitem_api = new LineItemsApi(configuration);
             PartsApi part_api = new PartsApi(configuration);
+            AppsApi app_api = new AppsApi(configuration);
 
             Presign presign = upload_api.PresignUploads();
             string stor_id = presign.UploadId;
@@ -57,7 +57,10 @@ namespace PaaSExample
                 Quote quote = quote_api.CreateQuote();
                 CreateLineItemOptions default_li = new CreateLineItemOptions(part.PartId, 1, null, new BuildSpec(56));
                 LineItem li = lineitem_api.CreateLineitem(quote.QuoteId.ToString(), default_li);
-                Console.WriteLine(string.Format("{0}/quotations/{1}/detail", fronend_url, quote.QuoteId));
+                string signup_url = app_api.AppAccountCreate().Url;
+                Console.WriteLine(signup_url);
+                string quote_detail_url = app_api.AppQuoteDetail(quote.QuoteId).Url;
+                Console.WriteLine(quote_detail_url);
             }
         }
 
