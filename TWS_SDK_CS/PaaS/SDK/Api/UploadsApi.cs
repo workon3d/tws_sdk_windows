@@ -3,6 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
+using System.Net;
 using RestSharp;
 using PaaS.SDK.Client;
 using PaaS.SDK.Model;
@@ -349,6 +351,93 @@ namespace PaaS.SDK.Api
             {
                 throw e;
             }
+        }
+
+        private void WriteToStream(Stream s, string txt)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(txt);
+            s.Write(bytes, 0, bytes.Length);
+        }
+
+        private void WriteToStream(Stream s, byte[] bytes)
+        {
+            s.Write(bytes, 0, bytes.Length);
+        }
+
+        private void WriteMultipartForm(Stream s, string boundary, Presign presign, string file_path)
+        {
+            /// The first boundary
+            byte[] boundarybytes = Encoding.UTF8.GetBytes("--" + boundary + "\r\n");
+            /// the last boundary.
+            byte[] trailer = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
+            /// the form data, properly formatted
+            string formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}\r\n";
+            /// the form-data file upload, properly formatted
+            string fileheaderTemplate = "Content-Disposition: form-data; name=\"file\"; filename=\"{0}\";\r\nContent-Type: application/octet-stream\r\n\r\n";
+            string filename = new FileInfo(file_path).Name;
+
+            WriteToStream(s, boundarybytes);
+            WriteToStream(s, string.Format(formdataTemplate, "name", ""));
+            WriteToStream(s, boundarybytes);
+            WriteToStream(s, string.Format(formdataTemplate, "AWSAccessKeyId", presign.FormFields.AWSAccessKeyId));
+            WriteToStream(s, boundarybytes);
+            WriteToStream(s, string.Format(formdataTemplate, "key", presign.FormFields.Key));
+            WriteToStream(s, boundarybytes);
+            WriteToStream(s, string.Format(formdataTemplate, "policy", presign.FormFields.Policy));
+            WriteToStream(s, boundarybytes);
+            WriteToStream(s, string.Format(formdataTemplate, "signature", presign.FormFields.Signature));
+            WriteToStream(s, boundarybytes);
+            WriteToStream(s, string.Format(formdataTemplate, "Filename", filename));
+            WriteToStream(s, boundarybytes);
+            WriteToStream(s, string.Format(fileheaderTemplate, filename));
+        }
+
+        public void UploadFileAsync(Presign presign, string file_path, AsyncCallback callback, int buffer_size = 4096)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(presign.FormAction);
+            string boundary = "----------" + DateTime.Now.Ticks.ToString("x");
+            byte[] trailer = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
+            httpWebRequest.ContentType = "multipart/form-data; boundary=" + boundary;
+
+            httpWebRequest.Method = "POST";
+            httpWebRequest.BeginGetRequestStream((result) =>
+            {
+                HttpWebRequest request = (HttpWebRequest)result.AsyncState;
+                using (Stream requestStream = request.EndGetRequestStream(result))
+                {
+                    WriteMultipartForm(requestStream, boundary, presign, file_path);
+
+                    // Read the source file into a byte array.
+                    using (FileStream fsSource = new FileStream(file_path, FileMode.Open, FileAccess.Read))
+                    {
+                        int numBytesToRead = (int)fsSource.Length;
+                        int numBytesRead = 0;
+                        byte[] bytes = new byte[buffer_size];
+
+                        while (numBytesToRead > 0)
+                        {
+                            // Read may return anything from 0 to numBytesToRead.
+                            int n = fsSource.Read(bytes, 0, Math.Min(buffer_size, numBytesToRead));
+
+                            // Break when the end of the file is reached.
+                            if (n == 0)
+                                break;
+
+                            numBytesToRead -= n;
+                            WriteToStream(requestStream, bytes);// requestStream.Write(bytes, 0, n);
+                            numBytesRead += n;
+                        }
+                    }
+                    WriteToStream(requestStream, trailer);
+                }
+                request.BeginGetResponse(a =>
+                {
+                    var response = request.EndGetResponse(a);
+                    result = callback.BeginInvoke(a, callback, response);
+                    callback.EndInvoke(result);
+                 }, null);
+
+            }, httpWebRequest);
         }
     }
     

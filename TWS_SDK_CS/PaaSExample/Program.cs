@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 using PaaS.SDK.Client;
 using PaaS.SDK.Api;
 using PaaS.SDK.Model;
@@ -26,7 +27,7 @@ namespace PaaSExample
             string api_token = "your api token";
             string user_email = "end user email";
             string password = "end user password";
-            string filepath = @"M:\work\test\PaaSSDK\sample\Datapart O.stl";
+            string filepath = @"your test file path in local";
 
             ApiClient client = new ApiClient(api_host);
             Configuration configuration = new PaaS.SDK.Client.Configuration(client, null, null, null, null,
@@ -49,6 +50,17 @@ namespace PaaSExample
             Presign presign = upload_api.PresignUploads();
             string stor_id = presign.UploadId;
             FileInfo finfo = new FileInfo(filepath);
+
+            /*
+            upload_api.UploadFileAsync(presign, filepath, a =>
+            {
+                if (a.AsyncState != null)
+                {
+                    HttpWebResponse response = (HttpWebResponse)a.AsyncState;
+                    Console.WriteLine(response.StatusCode);
+                }
+            });
+            */
 
             if (upload_api.UploadFile(presign, filepath))
             {
