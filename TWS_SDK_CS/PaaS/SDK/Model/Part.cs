@@ -40,7 +40,7 @@ namespace PaaS.SDK.Model
         /// <param name="UpdatedAt">UpdatedAt.</param>
         /// <param name="Meta">Meta.</param>
 
-        public Part(int? PartId = null, string StorId = null, string Name = null, string Description = null, bool? IsMetric = null, double? X = null, double? Y = null, double? Z = null, double? SurfaceArea = null, double? Volume = null, int? Size = null, double? Scale = null, bool? CustomOrientation = null, bool? Visible = null, string CreatedAt = null, string UpdatedAt = null, PartMeta Meta = null)
+        public Part(int? PartId = null, string StorId = null, string Name = null, string Description = null, bool? IsMetric = null, double? X = null, double? Y = null, double? Z = null, double? SurfaceArea = null, double? Volume = null, string Size = null, double? Scale = null, bool? CustomOrientation = null, bool? Visible = null, string CreatedAt = null, string UpdatedAt = null, PartMeta Meta = null)
         {
             this.PartId = PartId;
             this.StorId = StorId;
@@ -134,7 +134,7 @@ namespace PaaS.SDK.Model
         /// </summary>
         /// <value>file size (byte)</value>
         [DataMember(Name="size", EmitDefaultValue=false)]
-        public int? Size { get; set; }
+        public string Size { get; set; }
     
         /// <summary>
         /// Gets or Sets Scale
