@@ -1834,6 +1834,92 @@ namespace PaaS.SDK.Api
                 (Quote) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Quote)));
             
         }
+
+        /// <summary>
+        /// Creates a quote thumbnail
+        /// </summary>
+        /// <exception cref="PaaS.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Quote</returns>
+        public AppsResponse CreateQuoteThumbnail(string quoteId, string storId = null)
+        {
+            ApiResponse<AppsResponse> localVarResponse = CreateQuoteThumbnailWithHttpInfo(quoteId, storId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Creates a quote thumbnail
+        /// </summary>
+        /// <exception cref="PaaS.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of Quote</returns>
+        public ApiResponse<AppsResponse> CreateQuoteThumbnailWithHttpInfo(string quoteId, string storId = null)
+        {
+            // verify the required parameter 'quoteId' is set
+            if (quoteId == null)
+                throw new ApiException(400, "Missing required parameter 'quoteId' when calling QuotesApi->CreateQuoteThumbnail");
+
+            var localVarPath = "/quotes/{quote_id}/thumbnail";
+
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            if (quoteId != null) localVarPathParams.Add("quote_id", Configuration.ApiClient.ParameterToString(quoteId)); // path parameter
+
+            // authentication (user_auth) required
+
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("user_token")))
+            {
+                localVarQueryParams["user_token"] = Configuration.GetApiKeyWithPrefix("user_token");
+            }
+            // authentication (api_auth) required
+
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_token")))
+            {
+                localVarQueryParams["api_token"] = Configuration.GetApiKeyWithPrefix("api_token");
+            }
+
+            if (!String.IsNullOrEmpty(storId))
+            {
+                localVarQueryParams["stor_id"] = storId;
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse)Configuration.ApiClient.CallApi(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
+
+            if (localVarStatusCode >= 400)
+                throw new ApiException(localVarStatusCode, "Error calling CreateQuote: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException(localVarStatusCode, "Error calling CreateQuote: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+
+            return new ApiResponse<AppsResponse>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (AppsResponse)Configuration.ApiClient.Deserialize(localVarResponse, typeof(AppsResponse)));
+
+        }
         
     }
     

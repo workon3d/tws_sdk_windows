@@ -20,7 +20,7 @@ namespace PaaSExample
 
         static void UploadPartAndCreateQuoteExample()
         {
-            string api_host = "https://paas-staging.dddws.com/api/v1";
+            string api_host = "https://paas-sandbox.dddws.com/api/v1"; // "https://paas-staging.dddws.com/api/v1";
             // development: https://paas-working.dddws.com/api/v1
             // staging: https://paas-staging.dddws.com/api/v1
             // production: https://paas.dddws.com/api/v1
@@ -73,7 +73,18 @@ namespace PaaSExample
                 Console.WriteLine(signup_url);
                 string quote_detail_url = app_api.AppQuoteDetail(quote.QuoteId).Url;
                 Console.WriteLine(quote_detail_url);
+
+                // Set thumbnail image for quote
+                filepath = @"your test file path in local";
+                presign = upload_api.PresignUploads();
+                stor_id = presign.UploadId;
+                if (upload_api.UploadFile(presign, filepath))
+                {
+                    string thumbnail_url = quote_api.CreateQuoteThumbnail(quote.QuoteId.ToString(), stor_id).Url;
+                    Console.WriteLine(thumbnail_url);
+                }
             }
+                     
         }
 
         static void UploadPartAndCreateQuoteForAnonymousUserExample()
