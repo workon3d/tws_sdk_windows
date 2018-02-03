@@ -424,7 +424,7 @@ namespace PaaS.SDK.Api
                                 break;
 
                             numBytesToRead -= n;
-                            WriteToStream(requestStream, bytes);// requestStream.Write(bytes, 0, n);
+                            requestStream.Write(bytes, 0, n);
                             numBytesRead += n;
                         }
                     }
