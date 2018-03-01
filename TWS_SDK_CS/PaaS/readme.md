@@ -101,7 +101,7 @@ As you can see, there is no supported APIs for order creation in the list. For c
 ### Tips for the case when you want to use Front-end UI
 According to your user scenario, you may want to create a quote with the desired parts and redirect the front-web page for user to do the remaining procedure there. In this case, you need the specific URLs to show 1) account creation page or 2) quote detail page.
 
-To get these URLs, you can use PaaS as well. 
+To get these URLs, we are recommending to use PaaS, because the front-end URL can be changed without any notice.
 
 http://paas-staging.dddws.com/#/Apps
 
@@ -122,7 +122,7 @@ api_token = “your api key from 3WS user account”
 user_email = "end user email";
 password = "end user password";
 ```
-And you can create a new customer account for testing. Please visit http://qpe-staging.herokuapp.com/ and proceed for Creating an Account. Otherwise, you can try to use SDK interfaces to create new customer.
+And you can create a new customer account for testing. Please visit http://qpe-staging.herokuapp.com/user/signin and proceed for Creating an Account. Otherwise, you can try to use SDK interfaces to create new customer.
 As a result, you will get URL to reach the created quote on front-end.
 The created account will be only valid for staging with http://paas-staging.dddws.com/, unless you use working or production envirionment.
 
