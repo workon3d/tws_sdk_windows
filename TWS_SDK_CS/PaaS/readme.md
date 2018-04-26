@@ -122,7 +122,7 @@ api_token = “your api key from 3WS user account”
 user_email = "end user email";
 password = "end user password";
 ```
-And you can create a new customer account for testing. Please visit http://qpe-staging.herokuapp.com/user/signin and proceed for Creating an Account. Otherwise, you can try to use SDK interfaces to create new customer.
+And you can create a new customer account for testing. Please visit the corresponding front-end sign-up (or sing-in) page (e.g. http://qpe-staging.herokuapp.com/user/signin, you can get the exact URL from /Apps API) and proceed for Creating an Account. Otherwise, you can try to use SDK interfaces to create new customer.
 As a result, you will get URL to reach the created quote on front-end.
 The created account will be only valid for staging with http://paas-staging.dddws.com/, unless you use working or production envirionment.
 
