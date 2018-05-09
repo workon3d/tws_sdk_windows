@@ -52,6 +52,11 @@ namespace PaaSExample
             FileInfo finfo = new FileInfo(filepath);
 
             /*
+            // if you want to call UploadFileAsync for the multiple files, you should use different presigns for each file.
+            // Default value of System.Net.ServicePointManager.DefaultConnectionLimit is 2 and means HttpWebRequest will not invoke 3 or more simultaneously.
+            // Unless you will wait and upload next file, you need to set this static value properly to cover number of your simultaneous requests.
+            
+            System.Net.ServicePointManager.DefaultConnectionLimit = 5;
             upload_api.UploadFileAsync(presign, filepath, a =>
             {
                 if (a.AsyncState != null)
