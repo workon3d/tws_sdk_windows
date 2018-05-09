@@ -435,6 +435,7 @@ namespace PaaS.SDK.Api
                     var response = request.EndGetResponse(a);
                     result = callback.BeginInvoke(a, callback, response);
                     callback.EndInvoke(result);
+                    response.Close();
                  }, null);
 
             }, httpWebRequest);
