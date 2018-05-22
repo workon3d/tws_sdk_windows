@@ -400,6 +400,146 @@ namespace PaaS.SDK.Api
         }
 
         /// <summary>
+        /// Get URL for account creation Get front-end URL to display sign-in page
+        /// </summary>
+        /// <exception cref="PaaS.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="locale">locale code such as en-US (optional)</param>
+        /// <returns>AppsResponse</returns>
+        public AppsResponse AppLogin(string locale = null)
+        {
+            ApiResponse<AppsResponse> localVarResponse = AppLoginWithHttpInfo(locale);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get URL for account creation Get front-end URL to display sign-in page
+        /// </summary>
+        /// <exception cref="PaaS.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="locale">locale code such as en-US (optional)</param>
+        /// <returns>ApiResponse of AppsResponse</returns>
+        public ApiResponse<AppsResponse> AppLoginWithHttpInfo(string locale = null)
+        {
+
+            var localVarPath = "/apps/login";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (locale != null) localVarQueryParams.Add("locale", Configuration.ApiClient.ParameterToString(locale)); // query parameter
+
+            // authentication (api_auth) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_token")))
+            {
+                localVarQueryParams["api_token"] = Configuration.GetApiKeyWithPrefix("api_token");
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse)Configuration.ApiClient.CallApi(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("AppLogin", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<AppsResponse>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (AppsResponse)Configuration.ApiClient.Deserialize(localVarResponse, typeof(AppsResponse)));
+        }
+
+        /// <summary>
+        /// Get URL for account creation Get front-end URL to display sign-in page
+        /// </summary>
+        /// <exception cref="PaaS.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="locale">locale code such as en-US (optional)</param>
+        /// <returns>Task of AppsResponse</returns>
+        public async System.Threading.Tasks.Task<AppsResponse> AppLoginAsync(string locale = null)
+        {
+            ApiResponse<AppsResponse> localVarResponse = await AppLoginAsyncWithHttpInfo(locale);
+            return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Get URL for account creation Get front-end URL to display sign-in page
+        /// </summary>
+        /// <exception cref="PaaS.SDK.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="locale">locale code such as en-US (optional)</param>
+        /// <returns>Task of ApiResponse (AppsResponse)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<AppsResponse>> AppLoginAsyncWithHttpInfo(string locale = null)
+        {
+
+            var localVarPath = "/apps/login";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (locale != null) localVarQueryParams.Add("locale", Configuration.ApiClient.ParameterToString(locale)); // query parameter
+
+            // authentication (api_auth) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_token")))
+            {
+                localVarQueryParams["api_token"] = Configuration.GetApiKeyWithPrefix("api_token");
+            }
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse)await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("AppLogin", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<AppsResponse>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (AppsResponse)Configuration.ApiClient.Deserialize(localVarResponse, typeof(AppsResponse)));
+        }
+
+        /// <summary>
         /// Get URL for quote detail Get front-end URL to display quote detail page. User may need to login first.
         /// </summary>
         /// <exception cref="PaaS.SDK.Client.ApiException">Thrown when fails to make API call</exception>

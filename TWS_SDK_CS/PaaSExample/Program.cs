@@ -38,6 +38,14 @@ namespace PaaSExample
             UserAuthenticated auth_res = user_api.AuthenticateUser(autho_input);
             if (auth_res != null)
             {
+                if (auth_res.IsActivated != true)
+                {
+                    Console.WriteLine("User is not yet activated. Please check your email inbox");
+                    // Send activation email again, if user wants.
+                    user_api.RequestActivationUser(user_email, new AppsApi(configuration).AppLogin().Url);
+                    return;
+                }
+                
                 configuration.ApiKey["user_token"] = auth_res.UserToken;
             }
 
