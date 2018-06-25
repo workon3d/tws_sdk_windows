@@ -1,0 +1,13 @@
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\bin\Debug\GSExample.exe.config
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\bin\Debug\GSExample.exe
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\bin\Debug\GSExample.pdb
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\bin\Debug\TWS_SDK.dll
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\bin\Debug\RestSharp.dll
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\bin\Debug\TWS_SDK.pdb
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\bin\Debug\RestSharp.xml
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\obj\Debug\GSExample.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\obj\Debug\GSExample.exe
+C:\Users\Administrator\Documents\GitHub\tws_sdk_windows\TWS_SDK_CS\GSExample\obj\Debug\GSExample.pdb
