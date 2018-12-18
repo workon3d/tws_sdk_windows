@@ -8,6 +8,8 @@ using System.Net;
 using RestSharp;
 using PaaS.SDK.Client;
 using PaaS.SDK.Model;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace PaaS.SDK.Api
 {
@@ -331,11 +333,10 @@ namespace PaaS.SDK.Api
                 var client = new RestClient(presign.FormAction);
                 var upload_request = new RestRequest(Method.POST);
                 upload_request.RequestFormat = DataFormat.Json;
-                upload_request.AddParameter("AWSAccessKeyId", presign.FormFields.AWSAccessKeyId);
-                upload_request.AddParameter("Key", presign.FormFields.Key);
-                upload_request.AddParameter("Policy", presign.FormFields.Policy);
-                upload_request.AddParameter("Secure", presign.FormFields.Secure);
-                upload_request.AddParameter("Signature", presign.FormFields.Signature);
+                foreach (var x in presign.FormFields)
+                {
+                    upload_request.AddParameter(x.Key, x.Value);
+                }
                 upload_request.AddParameter("name", "");
                 upload_request.AddParameter("Filename", new FileInfo(file_path).Name);
                 upload_request.AddFile("file", file_path);
@@ -378,14 +379,12 @@ namespace PaaS.SDK.Api
 
             WriteToStream(s, boundarybytes);
             WriteToStream(s, string.Format(formdataTemplate, "name", ""));
-            WriteToStream(s, boundarybytes);
-            WriteToStream(s, string.Format(formdataTemplate, "AWSAccessKeyId", presign.FormFields.AWSAccessKeyId));
-            WriteToStream(s, boundarybytes);
-            WriteToStream(s, string.Format(formdataTemplate, "key", presign.FormFields.Key));
-            WriteToStream(s, boundarybytes);
-            WriteToStream(s, string.Format(formdataTemplate, "policy", presign.FormFields.Policy));
-            WriteToStream(s, boundarybytes);
-            WriteToStream(s, string.Format(formdataTemplate, "signature", presign.FormFields.Signature));
+            
+            foreach (var x in presign.FormFields)
+            {
+                WriteToStream(s, boundarybytes);
+                WriteToStream(s, string.Format(formdataTemplate, x.Key, x.Value));
+            }
             WriteToStream(s, boundarybytes);
             WriteToStream(s, string.Format(formdataTemplate, "Filename", filename));
             WriteToStream(s, boundarybytes);

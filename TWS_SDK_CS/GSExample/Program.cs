@@ -16,7 +16,7 @@ namespace GSExample
     {
         static void Main(string[] args)
         {
-            string your_api_key = "";
+              string your_api_key = "";
             string your_api_secret = "";
             string filepath = @"C:\Users\Administrator\Downloads\DatapartA.stl";
 
@@ -33,7 +33,7 @@ namespace GSExample
             string es_host = "https://ses-staging.herokuapp.com";
             string key_in_request_params = "";
             string signture_in_request_params = "";
-            long expire_in_request_params = ;
+            long expire_in_request_params = 0;
 
             var client = new RestClient(es_host);
             var request = new RestRequest("api/v1/authenticate", Method.POST);

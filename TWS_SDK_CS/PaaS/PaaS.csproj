@@ -107,7 +107,6 @@
     <Compile Include="SDK\Model\Payment.cs" />
     <Compile Include="SDK\Model\PM.cs" />
     <Compile Include="SDK\Model\Presign.cs" />
-    <Compile Include="SDK\Model\PresignFormFields.cs" />
     <Compile Include="SDK\Model\Price.cs" />
     <Compile Include="SDK\Model\Process.cs" />
     <Compile Include="SDK\Model\Quality.cs" />

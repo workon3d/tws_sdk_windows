@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Dynamic;
 
 namespace PaaS.SDK.Model
 {
@@ -30,7 +31,7 @@ namespace PaaS.SDK.Model
         /// <param name="FormFields">FormFields.</param>
         /// <param name="CurlExample">Upload example using curl.</param>
 
-        public Presign(string UploadId = null, string Bucket = null, string FormAction = null, string FormMethod = null, string FormEnctype = null, PresignFormFields FormFields = null, string CurlExample = null)
+        public Presign(string UploadId = null, string Bucket = null, string FormAction = null, string FormMethod = null, string FormEnctype = null, ExpandoObject FormFields = null, string CurlExample = null)
         {
             this.UploadId = UploadId;
             this.Bucket = Bucket;
@@ -77,7 +78,7 @@ namespace PaaS.SDK.Model
         /// Gets or Sets FormFields
         /// </summary>
         [DataMember(Name="form_fields", EmitDefaultValue=false)]
-        public PresignFormFields FormFields { get; set; }
+        public ExpandoObject FormFields { get; set; }
     
         /// <summary>
         /// Upload example using curl
